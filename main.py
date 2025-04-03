@@ -147,9 +147,28 @@ async def order(order_info: MarketOrder, background_tasks: BackgroundTasks):
     order_result = None
     try:
         exchange_name = order_info.exchange
+        print(">>> DEBUG exchange_name: ",exchange_name )
+        if exchange_name.upper() == "BYBIT":
+            from exchange.pexchange import get_exchange
+            ex = get_exchange("BYBIT")
+
+            for i in range(1,4):
+                bot = getattr(ex,f"BYBIT{i}", None)
+                print(f">>> DEBUT bot BYBIT{i}:", bot)
+                if not bot:
+                    print(f">>> WARNING: BOT BYBIT{i} is None")
+                    continue
+                try:
+                    bot.init_info(order_info)
+                    result = bot.market_entry(order_info)
+                    background_tasks.add_task(log,f"BYBIT{i}", result, order_info)
+                except Exception as e:
+                    print(f">>>> ERROR: BYBIT{i} failed -  {e}")
+            return {"result": "success"}
+
+
         bot = get_bot(exchange_name, order_info.kis_number)
         bot.init_info(order_info)
-
         if bot.order_info.is_crypto:
             if bot.order_info.is_entry:
                 order_result = bot.market_entry(bot.order_info)
