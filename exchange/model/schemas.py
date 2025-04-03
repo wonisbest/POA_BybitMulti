@@ -5,7 +5,7 @@ from pathlib import Path
 from enum import Enum
 from devtools import debug
 
-CRYPTO_LITERAL = Literal["BINANCE", "UPBIT", "BYBIT", "BITGET", "OKX"]
+CRYPTO_LITERAL = Literal["BINANCE", "UPBIT", "BYBIT", "BYBIT1", "BYBIT2", "BYBIT3", "BITGET","OKX"]
 
 
 STOCK_LITERAL = Literal[
@@ -20,6 +20,9 @@ EXCHANGE_LITERAL = Literal[
     "BINANCE",
     "UPBIT",
     "BYBIT",
+    "BYBIT1",
+    "BYBIT2",
+    "BYBIT3",
     "BITGET",
     "OKX",
     "KRX",
@@ -54,9 +57,9 @@ def find_env_file():
 
 
 env_path = find_env_file()
+print(">>> ENV PATH: ", env_path)
 
-
-CRYPTO_EXCHANGES = ("BINANCE", "UPBIT", "BYBIT", "BITGET", "OKX")
+CRYPTO_EXCHANGES = ("BINANCE", "UPBIT", "BYBIT","BYBIT1","BYBIT2","BYBIT3", "BITGET", "OKX")
 
 STOCK_EXCHANGES = (
     "KRX",
@@ -65,7 +68,7 @@ STOCK_EXCHANGES = (
     "AMEX",
 )
 
-COST_BASED_ORDER_EXCHANGES = ("UPBIT", "BYBIT", "BITGET")
+COST_BASED_ORDER_EXCHANGES = ("UPBIT", "BYBIT", "BYBIT1", "BYBIT2", "BYBIT3", "BITGET",)
 
 NO_ORDER_AMOUNT_OUTPUT_EXCHANGES = (
     "BITGET",
@@ -96,6 +99,12 @@ class Settings(BaseSettings):
     BINANCE_SECRET: str | None = None
     BYBIT_KEY: str | None = None
     BYBIT_SECRET: str | None = None
+    BYBIT1_KEY: str | None = None
+    BYBIT1_SECRET: str | None = None
+    BYBIT2_KEY: str | None = None
+    BYBIT2_SECRET: str | None = None
+    BYBIT3_KEY: str | None = None
+    BYBIT3_SECRET: str | None = None
     BITGET_KEY: str | None = None
     BITGET_SECRET: str | None = None
     BITGET_PASSPHRASE: str | None = None
@@ -227,7 +236,7 @@ class OrderRequest(BaseModel):
                 values[key] = value.replace(',', '')
             if values[key] in ("NaN", ""):
                 values[key] = None
-            
+
 
         values |= get_extra_order_info(values)
 
