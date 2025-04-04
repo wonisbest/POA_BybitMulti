@@ -45,7 +45,7 @@ payload = {}
 def get_exchange(exchange_name: str, kis_number=None):
     global payload
     if exchange_name in CRYPTO_EXCHANGES:
-        KEY, SECRET, PASSPHRASE = check_key(exchange_name)
+        KEY, SECRET, PASSPHRASE= check_key(exchange_name)
 
         if exchange_name == "BYBIT":
             for i in range(1,4):
@@ -53,7 +53,7 @@ def get_exchange(exchange_name: str, kis_number=None):
                 secret = settings.dict().get(f"BYBIT{i}_SECRET")
                 print(f">>> BYBIT{i}_KEY: {key} | Secret: {secret}")
                 label = f"BYBIT{i}"
-                if key and secret and passphrase and not payload.get(label):
+                if key and secret and not payload.get(label):
                     payload[label] = BYBIT(key, secret)
         elif not payload.get(exchange_name):
             if exchange_name in ("OKX"):
