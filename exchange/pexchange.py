@@ -54,7 +54,7 @@ def get_exchange(exchange_name: str, kis_number=None):
                 print(f">>> BYBIT{i}_KEY: {key} | Secret: {secret}")
                 label = f"BYBIT{i}"
                 if key and secret and not payload.get(label):
-                    payload[label] = BYBIT(key, secret)
+                    payload[label] = Bybit(key, secret)
         elif not payload.get(exchange_name):
             if exchange_name in ("OKX"):
                 payload |= {
